@@ -2,7 +2,6 @@ package com.example.fishlocator;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,21 +15,18 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
     private Button locationButton;
-    private TextView locationTextView;
+    private TextView latitudeTextView;
+    private TextView longitudeTextView;
     private TextInputEditText baitTextInput;
     private TextInputEditText weightTextInput;
     private KeeperLocationManager keeperLocationManager;
     private KeeperDbHelper dbHelper;
     private ListView myListView;
-    private ArrayList<String>  baits=new ArrayList<String>();///={"s","sa"};
-    private ArrayList<String>  weights=new ArrayList<String>();//={"1","2"};
-    private ArrayList<String>  locations=new ArrayList<String>();//={"1","2"};
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
 
@@ -38,12 +34,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         myListView = (ListView) findViewById(R.id.myListView);
-        locationTextView = (TextView) findViewById(R.id.locationTextView);
+        //locationTextView = (TextView) findViewById(R.id.locationTextView);
         locationButton = (Button) findViewById(R.id.locationButton);
         baitTextInput = (TextInputEditText)findViewById(R.id.baitTextInput);
         weightTextInput = (TextInputEditText)findViewById(R.id.weightTextInput);
         dbHelper = new KeeperDbHelper(this);
-        keeperLocationManager = new KeeperLocationManager(this,dbHelper,baitTextInput,locationTextView,weightTextInput);
+        ItemAdapter itemAdapter = new ItemAdapter(this);
+        keeperLocationManager = new KeeperLocationManager(this,dbHelper,baitTextInput,weightTextInput,itemAdapter);
 
         configure_button();
 
@@ -54,12 +51,8 @@ public class MainActivity extends AppCompatActivity {
         Keeper keeper=null;
         for (int i=0; i<data.size(); i++){
             keeper = (Keeper)data.get(i);
-            baits.add(keeper.getBait());
-            locations.add(String.valueOf(keeper.getLatitude()));
-            weights.add(String.valueOf(keeper.getWeight()));
+            itemAdapter.addKeeper(keeper);
         }
-        ItemAdapter itemAdapter = new ItemAdapter(this,baits.toArray(new String[0]),
-                locations.toArray(new String[0]),weights.toArray(new String[0]));
         myListView.setAdapter(itemAdapter);
     }
     @Override

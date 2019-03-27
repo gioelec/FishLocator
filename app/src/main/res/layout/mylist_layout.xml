@@ -22,10 +22,23 @@
         android:layout_marginEnd="47dp" />
 
     <TextView
-        android:id="@+id/descrTextView"
+        android:id="@+id/latitudeTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/nameTextView"
-        android:hint="location" />
+        android:layout_marginStart="69dp"
+        android:layout_marginTop="3dp"
+        android:layout_toEndOf="@+id/longitudeTextView"
+        android:hint="Location" />
+
+    <TextView
+        android:id="@+id/longitudeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/nameTextView"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="3dp"
+        android:layout_toEndOf="@+id/descrTextView"
+        android:hint="Location" />
 
 </RelativeLayout>

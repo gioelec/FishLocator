@@ -8,6 +8,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.design.widget.TextInputEditText;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -16,18 +17,20 @@ public class KeeperLocationManager {
     private Location lastLocation;
     private static boolean newKeeper;
     private KeeperDbHelper dbHelper;
-    private TextView locationTextView;
     private TextInputEditText baitTextInput;
     private TextInputEditText weightTextInput;
     private static LocationManager locationManager;
-    private Context mContext;
+    private ItemAdapter itemAdapter;
+    private TextView longitudeTextView; //= (TextView) findViewById(R.id.longitudeTextView);
+    private TextView latitudeTextView ;//= (TextView) findViewById(R.id.latitudeTextView);
 
-    public KeeperLocationManager(Context mContext,KeeperDbHelper dbHelper, TextInputEditText baitTextInput, TextView locationTextView, TextInputEditText weightTextInput) {
-        this.mContext = mContext;
+    public KeeperLocationManager(AppCompatActivity mContext, KeeperDbHelper dbHelper, TextInputEditText baitTextInput,TextInputEditText weightTextInput, ItemAdapter itemAdapter) {
         this.dbHelper = dbHelper;
-        this.locationTextView = locationTextView;
+        this.itemAdapter = itemAdapter;
         this.weightTextInput = weightTextInput;
         this.baitTextInput = baitTextInput;
+        longitudeTextView = (TextView) (mContext.findViewById(R.id.longitudeTextView));
+        latitudeTextView = (TextView) (mContext.findViewById(R.id.latitudeTextView));
         locationManager = (LocationManager) mContext.getSystemService(mContext.LOCATION_SERVICE);
 
         listener = new LocationListener() {
@@ -56,8 +59,12 @@ public class KeeperLocationManager {
         };
     }
     public void newPosition(){
-        dbHelper.writeData(lastLocation,baitTextInput.getText()+"",Double.parseDouble(weightTextInput.getText()+""));
-        locationTextView.setText(lastLocation.getLongitude() + " " + lastLocation.getLatitude());
+        String bait = baitTextInput.getText()+"";
+        double weight = Double.parseDouble(weightTextInput.getText()+"");
+        itemAdapter.addKeeper(new Keeper(lastLocation.getLatitude(),lastLocation.getLongitude(),bait,weight));
+        dbHelper.writeData(lastLocation,bait,weight);
+        longitudeTextView.setText(lastLocation.getLongitude()+"");
+        latitudeTextView.setText(lastLocation.getLatitude()+"");
         Log.d("msg","new location "+baitTextInput.getText()+" "+Double.parseDouble(weightTextInput.getText()+""));
     }
     public static void requestLocationUpdates() {

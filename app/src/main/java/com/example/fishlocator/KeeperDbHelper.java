@@ -1,6 +1,5 @@
 package com.example.fishlocator;
 
-import android.app.DownloadManager;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -34,7 +33,7 @@ public class KeeperDbHelper extends SQLiteOpenHelper {
         onUpgrade(db, oldVersion, newVersion);
     }
     public Cursor initQuery(){
-        SQLiteDatabase db = this.getReadableDatabase();///MMMMM
+        SQLiteDatabase db = this.getReadableDatabase();
         // Define a projection that specifies which columns from the database
         // you will actually use after this query.
         String[] projection = {
@@ -71,19 +70,17 @@ public class KeeperDbHelper extends SQLiteOpenHelper {
                     values.put(KeeperInformation.KeeperEntry.LONGITUDE, location.getLongitude());
         values.put(KeeperInformation.KeeperEntry.BAIT,bait);
         values.put(KeeperInformation.KeeperEntry.WEIGHT,weight);
-
-
         // Insert the new row, returning the primary key value of the new row
         return db.insert(KeeperInformation.KeeperEntry.TABLE_NAME, null, values);
     }
     public List readData(){
         List keepers = new ArrayList<Keeper>();
         while(cursor.moveToNext()) {
-            String bait = cursor.getString(cursor.getColumnIndexOrThrow(KeeperInformation.KeeperEntry.BAIT));
-            double weight = cursor.getLong(cursor.getColumnIndexOrThrow(KeeperInformation.KeeperEntry.WEIGHT));
-            long latitude = cursor.getLong(cursor.getColumnIndexOrThrow(KeeperInformation.KeeperEntry.LATITUDE));
-            long longitude = cursor.getLong(cursor.getColumnIndexOrThrow(KeeperInformation.KeeperEntry.LONGITUDE));
-            Keeper keeper = new Keeper(latitude,longitude,null,weight);
+            String bait      = cursor.getString(cursor.getColumnIndexOrThrow(KeeperInformation.KeeperEntry.BAIT));
+            double weight    = cursor.getLong(cursor.getColumnIndexOrThrow(KeeperInformation.KeeperEntry.WEIGHT));
+            double latitude  = cursor.getLong(cursor.getColumnIndexOrThrow(KeeperInformation.KeeperEntry.LATITUDE));
+            double longitude = cursor.getLong(cursor.getColumnIndexOrThrow(KeeperInformation.KeeperEntry.LONGITUDE));
+            Keeper keeper = new Keeper(latitude,longitude,bait,weight);
             keepers.add(keeper);
         }
         cursor.close();

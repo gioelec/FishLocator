@@ -1,21 +1,21 @@
 package com.example.fishlocator;
 
 public class Keeper {
-    private long latitude;
-    private long longitude;
+    private double latitude;
+    private double longitude;
     private String bait;
     private double weight;
-    public Keeper(long latitude,long longitude, String bait,double weight){
+    public Keeper(double latitude,double longitude, String bait,double weight){
         this.latitude = latitude;
         this.longitude=longitude;
         this.bait = bait;
         this.weight = weight;
     }
-    public long getLatitude(){
+    public double getLatitude(){
         return latitude;
     }
 
-    public long getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
