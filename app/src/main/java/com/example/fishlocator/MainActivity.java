@@ -20,8 +20,6 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private Button locationButton;
-    private TextView latitudeTextView;
-    private TextView longitudeTextView;
     private TextInputEditText baitTextInput;
     private TextInputEditText weightTextInput;
     private KeeperLocationManager keeperLocationManager;
@@ -34,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         myListView = (ListView) findViewById(R.id.myListView);
-        //locationTextView = (TextView) findViewById(R.id.locationTextView);
         locationButton = (Button) findViewById(R.id.locationButton);
         baitTextInput = (TextInputEditText)findViewById(R.id.baitTextInput);
         weightTextInput = (TextInputEditText)findViewById(R.id.weightTextInput);

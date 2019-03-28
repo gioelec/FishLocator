@@ -43,14 +43,14 @@ public class ItemAdapter extends BaseAdapter {
         View v = mInflater.inflate(R.layout.mylist_layout,null);
         TextView priceTextView = (TextView) v.findViewById(R.id.priceTextView);
         TextView nameTextView = (TextView) v.findViewById(R.id.nameTextView);
-        TextView descrTextView = (TextView) v.findViewById(R.id.latitudeTextView);
+        TextView latitudeTextView = (TextView) v.findViewById(R.id.latitudeTextView);
+        TextView longitudeTextView = (TextView) v.findViewById(R.id.latitudeTextView);
         Keeper keeper = keepers.get(position);
-        String bait = keeper.getBait();
-        String weight = String.valueOf(keeper.getWeight());
-        String longitude = String.valueOf(keeper.getLongitude());
-        nameTextView.setText(bait);
-        descrTextView.setText(longitude);
-        priceTextView.setText(weight);
+        nameTextView.setText(keeper.getBait());
+        longitudeTextView.setText(String.valueOf(keeper.getLongitude()));
+        latitudeTextView.setText(String.valueOf(keeper.getLatitude()));
+        Log.d("msg","Longitude setting text"+keeper.getLongitude());
+        priceTextView.setText(String.valueOf(keeper.getWeight()));
         return v;
     }
 }
